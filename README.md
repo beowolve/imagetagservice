@@ -64,6 +64,9 @@ pip install -r requirements.txt
 
 ### 3. Download the model (~5.6 GB)
 
+The model is downloaded automatically on first run into the `models/` directory. No manual step required.
+
+To download it manually instead:
 ```bat
 mkdir models
 curl -L -o models\ram_swin_large_14m.pth https://huggingface.co/xinyu1205/recognize_anything_model/resolve/main/ram_swin_large_14m.pth
@@ -105,15 +108,12 @@ uv pip install nuitka ordered-set zstandard
 build.bat
 ```
 
-Copy the model alongside the executable:
-```bat
-xcopy /E /I models dist\models
-```
-
 Run:
 ```bat
 dist\ImageTagService.exe image.jpg
 ```
+
+The model (~5.6 GB) is downloaded automatically on first run into a `models/` directory next to the executable.
 
 ---
 
@@ -200,3 +200,7 @@ https://github.com/xinyu1205/recognize-anything/blob/main/ram/data/ram_tag_list.
 ## License
 
 [MIT](LICENSE) — Copyright (c) 2026 Andreas Ebner
+
+### Third-party notices
+
+This project uses the [Recognize Anything Model (RAM)](https://github.com/xinyu1205/recognize-anything) by Xinyu Huang et al., licensed under the [Apache License 2.0](https://github.com/xinyu1205/recognize-anything/blob/main/LICENSE). The RAM model weights and package are not modified and are not included in this repository.
