@@ -6,8 +6,13 @@ python-multipart>=0.0.9
 # Image handling
 Pillow>=10.0.0
 
-# Deep learning (CPU + optional CUDA)
-# For CUDA support install the matching torch+torchvision from https://pytorch.org/get-started/locally/
+# Deep learning
+# The service automatically uses CUDA if available, otherwise falls back to CPU.
+# This installs the CPU-only version of torch. For CUDA support, replace with:
+#   uv pip uninstall torch torchvision
+#   uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+# Adjust cu121 to match your installed CUDA version (cu118, cu121, cu124, etc.)
+# See https://pytorch.org/get-started/locally/ for the right URL.
 torch>=2.2.0
 torchvision>=0.17.0
 
