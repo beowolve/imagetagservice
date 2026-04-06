@@ -31,6 +31,46 @@ _transform = None
 _device: str = "cpu"
 
 
+_MODEL_URL = (
+    "https://huggingface.co/xinyu1205/recognize_anything_model"
+    "/resolve/main/ram_swin_large_14m.pth"
+)
+
+
+def _download_model() -> None:
+    """Download the RAM model weights to MODEL_PATH, showing a progress bar."""
+    import urllib.request
+
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp_path = MODEL_PATH.with_suffix(".tmp")
+
+    logger.info("RAM model not found — downloading (~5.6 GB) …")
+    logger.info("  from: %s", _MODEL_URL)
+    logger.info("  to:   %s", MODEL_PATH)
+
+    try:
+        def _progress(block_num: int, block_size: int, total_size: int) -> None:
+            if total_size <= 0:
+                return
+            downloaded = block_num * block_size
+            pct = min(downloaded / total_size * 100, 100)
+            mb_done = downloaded / 1024 / 1024
+            mb_total = total_size / 1024 / 1024
+            print(f"\r  {pct:5.1f}%  {mb_done:.0f} / {mb_total:.0f} MB", end="", flush=True)
+
+        urllib.request.urlretrieve(_MODEL_URL, tmp_path, reporthook=_progress)
+        print()  # newline after progress bar
+        tmp_path.rename(MODEL_PATH)
+        logger.info("Model downloaded successfully.")
+    except Exception as exc:
+        tmp_path.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"Failed to download RAM model: {exc}\n"
+            f"Download it manually from:\n  {_MODEL_URL}\n"
+            f"and place it at: {MODEL_PATH}"
+        ) from exc
+
+
 def load_model() -> None:
     """Load the RAM model into memory (call once at startup)."""
     global _model, _transform, _device
@@ -39,12 +79,7 @@ def load_model() -> None:
         return  # already loaded
 
     if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"RAM model not found at '{MODEL_PATH}'.\n"
-            "Download it from:\n"
-            "  https://huggingface.co/xinyu1205/recognize_anything_model/resolve/main/ram_swin_large_14m.pth\n"
-            f"and place it in the '{MODEL_PATH.parent}' directory."
-        )
+        _download_model()
 
     try:
         from ram import get_transform
