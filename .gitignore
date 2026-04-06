@@ -1,0 +1,46 @@
+# Virtual environment
+.venv/
+
+# Model weights (large binary files — download manually)
+models/
+
+# Runtime state
+runtime/
+
+# Build output
+dist/
+*.exe
+*.dist/
+*.onefile-build/
+app.build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Distribution / packaging
+*.egg-info/
+.eggs/
+build/
+
+# Environment files
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+
+# AI agents
+.claude/
+.cursor/
+.aider*
+.continue/
+.cody/
+.copilot/
+
+# TestImages
+test/
