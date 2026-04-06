@@ -33,7 +33,7 @@ python -m nuitka ^
     --include-package=torch ^
     --include-package=torchvision ^
     --include-data-files=config.py=config.py ^
-    --windows-console-mode=attach ^
+    --windows-console-mode=force ^
     --assume-yes-for-downloads ^
     app.py
 
@@ -47,9 +47,8 @@ echo.
 echo [OK] Build complete: %OUTPUT_DIR%\%EXE_NAME%.exe
 echo.
 echo Next steps:
-echo   1. Copy your model file into %OUTPUT_DIR%\models\
-echo      e.g.  xcopy /E /I models %OUTPUT_DIR%\models
-echo   2. Run: %OUTPUT_DIR%\%EXE_NAME%.exe
-echo      or:  %OUTPUT_DIR%\%EXE_NAME%.exe path\to\image.jpg --tags "cat,dog"
+echo   1. Run: %OUTPUT_DIR%\%EXE_NAME%.exe path\to\image.jpg
+echo      The model (~5.6 GB) is downloaded automatically on first run.
+echo   2. For server mode: %OUTPUT_DIR%\%EXE_NAME%.exe
 
 endlocal
